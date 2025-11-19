@@ -28,23 +28,7 @@ O status é indicado por LEDs coloridos e as informações são publicadas em um
   - `PubSubClient` by Nick O'Leary
   - `ArduinoJson` by Benoit Blanchon
 
-## Configuração
-
-1.  **Renomeie** o arquivo `main_celula07.ino` para `main_celula07.ino` ou o nome que preferir para seu sketch.
-2.  **Preencha o arquivo `secrets.h`** com suas credenciais de Wi-Fi e do broker MQTT. Substitua os valores entre `{{...}}`.
-
-    ```cpp
-    // --- Configuração WiFi ---
-    const char* WIFI_SSID = "SEU_SSID_WIFI";
-    const char* WIFI_PASS = "SUA_SENHA_WIFI";
-
-    // --- Configuração MQTT ---
-    const char* MQTT_HOST = "SEU_MQTT_HOST";
-    const int   MQTT_PORT = 8883; // Porta TLS
-    const char* MQTT_USER = "SEU_USUARIO_MQTT";
-    const char* MQTT_PASS = "SUA_SENHA_MQTT";
-    ```
-
+  
 ## Como Iniciar
 
 1.  Abra o arquivo `.ino` na Arduino IDE.
