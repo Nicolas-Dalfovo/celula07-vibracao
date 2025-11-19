@@ -5,13 +5,13 @@ Gabriela da Silva de Liz²
 
 **RESUMO**
 
-Este trabalho apresenta o desenvolvimento de um sistema de monitoramento de vibração utilizando a plataforma NodeMCU (ESP8266), projetado para detectar níveis anômalos de vibração e transmitir os dados em tempo real via protocolo MQTT com segurança TLS. O sistema classifica os níveis de vibração em três categorias: **Normal**, **Atenção** e **Crítico**, utilizando indicadores visuais (LEDs) e publicando alertas e telemetria em um broker MQTT. As informações podem ser monitoradas remotamente, permitindo a integração com plataformas de IoT para manutenção preditiva. O firmware foi desenvolvido para ser robusto, incluindo lógica de reconexão automática e tratamento de comandos remotos para ajuste de parâmetros operacionais, como os limiares de vibração.
+Este trabalho apresenta o desenvolvimento de um sistema de monitoramento de vibração utilizando a plataforma NodeMCU (ESP8266), projetado para detectar níveis anômalos de vibração e transmitir os dados em tempo real via protocolo MQTT com segurança TLS. O sistema classifica os níveis de vibração em três categorias: Normal, Atenção e Crítico, utilizando indicadores visuais (LEDs) e publicando alertas e telemetria em um broker MQTT. As informações podem ser monitoradas remotamente, permitindo a integração com plataformas de IoT para manutenção preditiva. O firmware foi desenvolvido para ser robusto, incluindo lógica de reconexão automática e tratamento de comandos remotos para ajuste de parâmetros operacionais, como os limiares de vibração.
 
 **Palavras-chave**: ESP8266. Monitoramento de Vibração. MQTT. IoT. Manutenção Preditiva.
 
 **ABSTRACT**
 
-This work presents the development of a vibration monitoring system using the NodeMCU (ESP8266) platform, designed to detect anomalous vibration levels and transmit data in real-time via the MQTT protocol with TLS security. The system classifies vibration levels into three categories: **Normal**, **Attention**, and **Critical**, using visual indicators (LEDs) and publishing alerts and telemetry to an MQTT broker. The information can be monitored remotely, allowing integration with IoT platforms for predictive maintenance. The firmware was developed to be robust, including automatic reconnection logic and handling of remote commands for adjusting operational parameters, such as vibration thresholds.
+This work presents the development of a vibration monitoring system using the NodeMCU (ESP8266) platform, designed to detect anomalous vibration levels and transmit data in real-time via the MQTT protocol with TLS security. The system classifies vibration levels into three categories: Normal, Attention, and Critical, using visual indicators (LEDs) and publishing alerts and telemetry to an MQTT broker. The information can be monitored remotely, allowing integration with IoT platforms for predictive maintenance. The firmware was developed to be robust, including automatic reconnection logic and handling of remote commands for adjusting operational parameters, such as vibration thresholds.
 
 **Keywords**: ESP8266. Vibration Monitoring. MQTT. IoT. Predictive Maintenance.
 
@@ -25,7 +25,7 @@ O objetivo deste trabalho é desenvolver um sistema de monitoramento de vibraç�
 
 A justificativa para este projeto baseia-se na crescente demanda por sistemas de monitoramento de baixo custo, eficientes e conectados. A utilização de plataformas como o ESP8266 viabiliza o desenvolvimento de soluções de IoT customizadas e acessíveis para diversas aplicações industriais.
 
-## 2 METODOLOGIA DA PESQUISA
+## 2 METODOLOGIA
 
 ### 2.1 MATERIAIS UTILIZADOS
 
@@ -42,7 +42,7 @@ O desenvolvimento do protótipo utilizou os componentes descritos no Quadro 1, s
 | Protoboard | 1 | 830 pontos | Montagem do circuito |
 | Jumpers | - | Diversos | Conexões entre os componentes |
 
-*Fonte: Elaborado pelos autores (2025).* 
+*Fonte: Elaborado pelos autores (2025).*
 
 ### 2.2 MÉTODOS EMPREGADOS
 
@@ -56,7 +56,7 @@ O sistema utiliza o protocolo MQTT sobre TLS (porta 8883) para garantir a segura
 
 O firmware foi projetado com uma arquitetura focada em tarefas específicas:
 
-- **Aquisição e Classificação**: Leitura do valor analógico do potenciômetro, mapeamento para o `vib_index` (0-1000) e classificação do status (`Normal`, `Atenção`, `Crítico`) com base nos limiares `vib_warn` e `vib_alarm`.
+- **Aquisição e Classificação**: Leitura do valor analógico do potenciômetro, mapeamento para o `vib_index` (0-1000) e classificação do status (Normal, Atenção, Crítico) com base nos limiares `vib_warn` e `vib_alarm`.
 - **Gerenciamento de Conexão**: Rotinas `conectarWifiSeNecessario()` e `conectarMqttSeNecessario()` garantem que o dispositivo esteja sempre conectado, tentando restabelecer a comunicação em caso de falha.
 - **Comunicação MQTT**: Funções para publicar dados de telemetria, eventos de mudança de status (especialmente o `alarme_vibracao`), e a configuração atual do dispositivo. Inclui também um callback para processar comandos recebidos.
 - **Interface Visual**: Função `atualizarLeds()` que reflete o status atual do sistema nos LEDs correspondentes.
@@ -67,13 +67,13 @@ O código implementa uma lógica de classificação que utiliza histerese para e
 
 **Tabela 2 - Parâmetros de classificação dos níveis de vibração**
 
-| NÍVEL | FAIXA DE VALORES (`vib_index`) | LED ATIVO | EVENTO MQTT | AÇÃO RECOMENDADA |
+| NÍVEL | FAIXA DE VALORES (vib_index) | LED ATIVO | EVENTO MQTT | AÇÃO RECOMENDADA |
 | :--- | :--- | :--- | :--- | :--- |
-| Normal | < 300 | Verde | `mudanca_status` | Operação normal |
-| Atenção | 300 - 600 | Amarelo | `mudanca_status` | Monitoramento intensificado |
-| Crítico | > 600 | Vermelho | `alarme_vibracao` | Intervenção necessária |
+| Normal | < 300 | Verde | mudanca_status | Operação normal |
+| Atenção | 300 - 600 | Amarelo | mudanca_status | Monitoramento intensificado |
+| Crítico | > 600 | Vermelho | alarme_vibracao | Intervenção necessária |
 
-*Fonte: Elaborado pelos autores (2025).* 
+*Fonte: Elaborado pelos autores (2025).*
 
 O trecho de código a seguir, parte da função `publicarTelemetria`, mostra como os dados são estruturados em formato JSON para envio via MQTT.
 
@@ -85,7 +85,7 @@ void publicarTelemetria(bool forcarEnvio, int vibIndex, const String& statusLed)
 
   doc["ts"] = agoraEpochStr();
   doc["cellId"] = CELL_ID;
-  doc["devId"]  = DEV_ID;
+  doc["devId"] = DEV_ID;
 
   JsonObject metrics = doc.createNestedObject("metrics");
   metrics["vib_index"] = vibIndex;
@@ -93,7 +93,7 @@ void publicarTelemetria(bool forcarEnvio, int vibIndex, const String& statusLed)
   doc["status"] = statusLed;
 
   JsonObject th = doc.createNestedObject("thresholds");
-  th["vib_warn"]  = limiares.vib_warn;
+  th["vib_warn"] = limiares.vib_warn;
   th["vib_alarm"] = limiares.vib_alarm;
 
   // ... (serialização e publicação)
